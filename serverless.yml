@@ -13,3 +13,6 @@ functions:
     memorySize: 2048
     events:
       - schedule: cron(0 15 * * ? *)
+
+plugins:
+  - serverless-ruby-layer
