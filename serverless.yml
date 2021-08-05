@@ -1,0 +1,15 @@
+service: wp_post_article
+provider:
+  name: aws
+  stage: production
+  region: ap-northeast-1
+  runtime: ruby2.7
+  stackName: wp-post-article
+
+functions:
+  puppeteer-orchestrator:
+    handler: handler.lambda_handler
+    timeout: 60
+    memorySize: 2048
+    events:
+      - schedule: cron(0 15 * * ? *)
