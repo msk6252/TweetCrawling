@@ -1,3 +1,7 @@
+require 'rubygems'
+require 'bundler'
+Bundler.require
+
 require 'faraday'
 require 'base64'
 require 'json'

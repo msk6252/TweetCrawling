@@ -1,3 +1,7 @@
+require 'rubygems'
+require 'bundler'
+Bundler.require
+
 require './TwitterCrawling.rb'
 require './WordPressPost.rb'
 

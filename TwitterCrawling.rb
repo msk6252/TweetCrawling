@@ -1,3 +1,7 @@
+require 'rubygems'
+require 'bundler'
+Bundler.require
+
 require 'twitter'
 require 'time'
 require 'pp'
@@ -15,6 +19,7 @@ class TwitterCrawling
       config.access_token        = secretmanager.get_secret("TWITTER_ACCESS_TOKEN")
       config.access_token_secret = secretmanager.get_secret("TWITTER_ACCESS_TOKEN_SECRET")
     end
+
     @day_before = (Time.now - 3600 * 24).strftime("%Y-%m-%d")
     @today = Time.now.strftime("%Y-%m-%d")
   end

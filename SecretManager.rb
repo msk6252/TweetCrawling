@@ -1,3 +1,8 @@
+require 'rubygems'
+require 'bundler'
+Bundler.require
+
+require 'aws-sdk-secretsmanager'
 require 'logger'
 require 'json'
 
@@ -9,9 +14,9 @@ class SecretManager
 
   def get_secret(key)
     begin
-      secret = `AWS_DEFAULT_REGION=ap-northeast-1 aws secretsmanager get-secret-value --secret-id #{@secret_id}`
-      secret_json = JSON.load(secret)['SecretString']
-      return JSON.load(secret_json)[key]
+      scm = Aws::SecretsManager::Client.new(region: "ap-northeast-1")
+      secret = scm.get_secret_value(secret_id: @secret_id)
+      return JSON.load(secret.secret_string)[key]
     rescue => e
       @logger.error(e)
     end
