@@ -1,0 +1,4 @@
+config.json
+vendor/
+.bundle/
+.serverless/
