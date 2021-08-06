@@ -4,8 +4,8 @@ Bundler.require
 
 require 'twitter'
 require 'time'
-require 'pp'
 require './SecretManager.rb'
+require './Firestore.rb'
 
 class TwitterCrawling
 
@@ -25,9 +25,14 @@ class TwitterCrawling
   end
   
   def get_users
-    #sheets = SpreadSheet.new
-    #puts sheets[1,1]
-    [""]
+    users = []
+
+    secretmanager = SecretManager.new("TwitterCrawling")
+    project_id = secretmanager.get_secret("FIRESTORE_PROJECT_ID")
+    Firestore.get_data(project_id, "users", "config.json").get do | user |
+      users << user.data[:name]
+    end
+    return users
   end
 
   def get_movies_url
