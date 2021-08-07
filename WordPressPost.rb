@@ -30,7 +30,7 @@ class WordPressPost
     text = content[:text]
     @data_json = {
       title: "【タイトル】",
-      content: "<h1>【タイトル】</h1><br /><p>#{text}</p><br /><figure class='wp-block-video'><video controls src='#{url}'></video></figure>",
+      content: "<figure class='wp-block-video'><video controls src='#{url}'></video></figure><br /><p>【アカウント名】さんより</p><br /><p>#{text}</p>",
       status: "draft"
     }.to_json
 
