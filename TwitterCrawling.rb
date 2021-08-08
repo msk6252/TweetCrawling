@@ -7,8 +7,9 @@ require 'time'
 require './SecretManager.rb'
 require './Firestore.rb'
 
-class TwitterCrawling
 
+class TwitterCrawling
+  attr_reader :day_before, :today
   def initialize
     ENV['TZ'] = 'Asia/Tokyo'
     secretmanager = SecretManager.new("TwitterCrawling")
