@@ -17,6 +17,11 @@ def lambda_handler(event:, context:)
   contents = twitter.get_movies_url
   logger.info("====== Twitter Crawling END =====")
 
+  if contents.empty?
+    logger.info("===== Movie Contents Not Found. Exit. =====")
+    return
+  end
+
   logger.info("====== WordPress Post Start =====")
   contents.each do |content|
     wordpress.create_article(content)
