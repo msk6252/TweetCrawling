@@ -12,20 +12,22 @@ def lambda_handler(event:, context:)
   wordpress = WordPressPost.new
   logger = Logger.new($stdout)
 
-  logger.info("====== Twitter Crawling Start =====")
+  logger.info("====== Proccess Start =====")
   logger.info("====== #{twitter.day_before} ~ #{twitter.today} =====")
-  contents = twitter.get_movies_url
-  logger.info("====== Twitter Crawling END =====")
 
-  if contents.empty?
-    logger.info("===== Movie Contents Not Found. Exit. =====")
-    return
-  end
+  # Get Users From Firestore
+  users = twitter.get_users
 
-  logger.info("====== WordPress Post Start =====")
-  contents.each do |content|
-    wordpress.create_article(content)
-    wordpress.post_article
+  return if users.empty?
+
+  # Get URL & Post Article
+  users.each do | user |
+    content = twitter.get_movies_url(user)
+    if !content.empty?
+      logger.info("===== Create Article & Post =====")
+      wordpress.create_article(content)
+      wordpress.post_article
+    end
   end
-  logger.info("====== WordPress Post END =====")
+  logger.info("====== Proccess End =====")
 end
