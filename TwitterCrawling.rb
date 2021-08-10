@@ -21,8 +21,8 @@ class TwitterCrawling
       config.access_token_secret = secretmanager.get_secret("TWITTER_ACCESS_TOKEN_SECRET")
     end
 
-    @day_before = (Time.now - 3600 * 24).strftime("%Y-%m-%d")
-    @today = Time.now.strftime("%Y-%m-%d")
+    @day_before = (Time.now - 3600).strftime("%Y-%m-%d_%H:00:00_JST")
+    @today = Time.now.strftime("%Y-%m-%d_%H:00:00_JST")
   end
   
   def get_users
@@ -42,7 +42,7 @@ class TwitterCrawling
     contents = []
     
     get_users.each do |user|
-      @client.search("from:#{user} since:#{@day_before} until:#{@today}", {result_type: "media", tweet_mode: "extended"}).collect do |tweet|
+      @client.search("from:#{user} since:#{@day_before} until:#{@today}", {result_type: "recent", tweet_mode: "extended"}).collect do |tweet|
         if tweet[:media].count > 0
           if tweet[:media][0][:video_info]
             if tweet[:media][0][:video_info][:variants].count > 0
