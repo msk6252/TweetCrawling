@@ -36,22 +36,19 @@ class TwitterCrawling
     return users
   end
 
-  def get_movies_url
+  def get_movies_url(user)
     regexp_url = /https?:\/\/[\S]+\.mp4.*/
     
-    contents = []
-    
-    get_users.each do |user|
-      @client.search("from:#{user} since:#{@day_before} until:#{@today}", {result_type: "recent", tweet_mode: "extended"}).collect do |tweet|
-        if tweet[:media].count > 0
-          if tweet[:media][0][:video_info]
-            if tweet[:media][0][:video_info][:variants].count > 0
-                contents << { user_name: tweet.user.screen_name, text: tweet.text, url: tweet[:media][0][:video_info][:variants][0][:url].to_str } if regexp_url.match?(tweet[:media][0][:video_info][:variants][0][:url])
-            end
+    @client.search("from:#{user} since:#{@day_before} until:#{@today} filter:videos", {result_type: "recent", tweet_mode: "extended"}).collect do |tweet|
+      if tweet[:media].count > 0
+        if tweet[:media][0][:video_info]
+          if tweet[:media][0][:video_info][:variants].count > 0
+              content = { user_name: tweet.user.screen_name, text: tweet.text, url: tweet[:media][0][:video_info][:variants][0][:url].to_str } if regexp_url.match?(tweet[:media][0][:video_info][:variants][0][:url])
+              return content || {}
           end
         end
       end
     end
-    return contents
+    return {}
   end
 end
