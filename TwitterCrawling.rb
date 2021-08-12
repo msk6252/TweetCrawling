@@ -43,7 +43,7 @@ class TwitterCrawling
       if tweet[:media].count > 0
         if tweet[:media][0][:video_info]
           if tweet[:media][0][:video_info][:variants].count > 0
-              content = { user_name: tweet.user.screen_name, text: tweet.text, url: tweet[:media][0][:video_info][:variants][0][:url].to_str } if regexp_url.match?(tweet[:media][0][:video_info][:variants][0][:url])
+            content = { name: tweet.user.name, user_name: tweet.user.screen_name, text: tweet.text, url: tweet[:media][0][:video_info][:variants][0][:url].to_str } if regexp_url.match?(tweet[:media][0][:video_info][:variants][0][:url])
               return content || {}
           end
         end
