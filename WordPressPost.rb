@@ -26,11 +26,13 @@ class WordPressPost
   end
 
   def create_article(content)
+    name = content[:name]
+    user_name = content[:user_name]
     url = content[:url]
     text = content[:text]
     @data_json = {
       title: "【タイトル】",
-      content: "<figure class='wp-block-video'><video controls src='#{url}'></video></figure><br /><p>【アカウント名】さんより</p><br /><p>#{text}</p>",
+      content: "<figure class='wp-block-video'><video controls src='#{url}' width='50%' height='80%'></video></figure><br /><p>#{name}さん（<a href='https://twitter.com/#{user_name}'>@#{user_name}</a>）さんより</p><br /><p>#{text}</p>",
       status: "draft"
     }.to_json
 

@@ -12,9 +12,6 @@ def lambda_handler(event:, context:)
   wordpress = WordPressPost.new
   logger = Logger.new($stdout)
 
-  logger.info("====== Proccess Start =====")
-  logger.info("====== #{twitter.day_before} ~ #{twitter.today} =====")
-
   # Get Users From Firestore
   users = twitter.get_users
 
@@ -25,9 +22,9 @@ def lambda_handler(event:, context:)
     content = twitter.get_movies_url(user)
     if !content.empty?
       logger.info("===== Create Article & Post =====")
+      logger.info("POST: #{content}")
       wordpress.create_article(content)
       wordpress.post_article
     end
   end
-  logger.info("====== Proccess End =====")
 end
